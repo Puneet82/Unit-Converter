@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Meta tags for character set and viewport -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Title of the page -->
+    <title>Unit Converter</title>
+    <!-- Link to Tailwind CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-gray-100">
+
+    <!-- Navigation bar -->
+    <nav class="bg-blue-500 p-4">
+        <div class="flex justify-between items-center">
+            <h1 class="text-white text-3xl font-bold">Unit Converter</h1>
+        </div>
+    </nav>
+
+    <div class="container mx-auto mt-4">
+
+        <!-- Tabs for selecting conversion type -->
+        <ul class="flex border-b">
+            <li class="-mb-px mr-1">
+                <a class="bg-white inline-block border-l border-t border-r rounded-t py-2 px-4 text-blue-500 font-semibold"
+                    href="#weight" onclick="showSection('weight')">Weight</a>
+            </li>
+            <li class="mr-1">
+                <a class="bg-white inline-block py-2 px-4 text-blue-500 hover:text-blue-800 font-semibold"
+                    href="#distance" onclick="showSection('distance')">Distance</a>
+            </li>
+            <li class="mr-1">
+                <a class="bg-white inline-block py-2 px-4 text-blue-500 hover:text-blue-800 font-semibold"
+                    href="#temperature" onclick="showSection('temperature')">Temperature</a>
+            </li>
+        </ul>
+
+        <!-- Weight Converter Section -->
+        <div id="weight" class="py-4">
+            <h2 class="text-2xl font-semibold mb-4">Weight Converter</h2>
+
+            <!-- Weight Conversion Form -->
+            <form id="weight-form-dropdown" class="mb-4">
+                <label for="weight-value" class="block text-gray-700 mt-4">Enter Value:</label>
+                <input type="text" id="weight-value" name="weight-value"
+                    class="border rounded px-3 py-2 w-full focus:outline-none focus:border-blue-500">
+
+                <label for="weight-conversion-type" class="block text-gray-700 mt-4">Choose Conversion Type:</label>
+
+                <!-- Dropdown for choosing conversion type -->
+                <select id="weight-conversion-type"
+                    class="border rounded px-3 py-2 w-full focus:outline-none focus:border-blue-500">
+                    <option value="lb-to-kg">Pounds to Kilograms</option>
+                    <option value="kg-to-lb">Kilograms to Pounds</option>
+                </select>
+
+                <!-- Button to trigger conversion -->
+                <button type="button" onclick="convertWeight()"
+                    class="mt-4 bg-blue-500 text-white px-4 py-2 rounded">Convert</button>
+            </form>
+
+            <!-- Display converted value -->
+            <div class="mt-4">
+                <label for="converted-weight" class="block text-gray-700">Converted Value:</label>
+                <input type="text" id="converted-weight" name="converted-weight"
+                    class="border rounded px-3 py-2 w-full bg-gray-100">
+            </div>
+        </div>
+
+        <!-- Distance Converter Section (Initially Hidden) -->
+        <div id="distance" class="py-4 hidden">
+            <h2 class="text-2xl font-semibold mb-4">Distance Converter</h2>
+            <!-- Distance Conversion Form -->
+            <form id="distance-form" class="mb-4">
+                <label for="distance-value" class="block text-gray-700">Enter Value:</label>
+                <input type="text" id="distance-value" name="distance-value"
+                    class="border rounded px-3 py-2 w-full focus:outline-none focus:border-blue-500">
+
+                <!-- Dropdown for choosing conversion type -->
+                <label for="distance-conversion-type" class="block text-gray-700 mt-4">Choose Conversion Type:</label>
+                <select id="distance-conversion-type"
+                    class="border rounded px-3 py-2 w-full focus:outline-none focus:border-blue-500">
+                    <option value="km-to-miles">Kilometers to Miles</option>
+                    <option value="miles-to-km">Miles to Kilometers</option>
+                </select>
+
+                <!-- Button to trigger conversion -->
+                <button type="button" onclick="convertDistance()"
+                    class="mt-4 bg-blue-500 text-white px-4 py-2 rounded">Convert</button>
+            </form>
+
+            <!-- Display converted value -->
+            <div class="mt-4">
+                <label for="converted-distance" class="block text-gray-700">Converted Value:</label>
+                <input type="text" id="converted-distance" name="converted-distance"
+                    class="border rounded px-3 py-2 w-full bg-gray-100">
+            </div>
+        </div>
+
+        <!-- Temperature Converter Section (Initially Hidden) -->
+        <div id="temperature" class="py-4 hidden">
+            <h2 class="text-2xl font-semibold mb-4">Temperature Converter</h2>
+            <!-- Temperature Conversion Form -->
+            <form id="temperature-form" class="mb-4">
+                <label for="temperature-value" class="block text-gray-700">Enter Value:</label>
+                <input type="text" id="temperature-value" name="temperature-value"
+                    class="border rounded px-3 py-2 w-full focus:outline-none focus:border-blue-500">
+
+                <!-- Dropdown for choosing conversion type -->
+                <label for="temperature-conversion-type" class="block text-gray-700 mt-4">Choose Conversion
+                    Type:</label>
+                <select id="temperature-conversion-type"
+                    class="border rounded px-3 py-2 w-full focus:outline-none focus:border-blue-500">
+                    <option value="celsius-to-fahrenheit">Celsius to Fahrenheit</option>
+                    <option value="fahrenheit-to-celsius">Fahrenheit to Celsius</option>
+                </select>
+
+                <!-- Button to trigger conversion -->
+                <button type="button" onclick="convertTemperature()"
+                    class="mt-4 bg-blue-500 text-white px-4 py-2 rounded">Convert</button>
+            </form>
+
+            <!-- Display converted value -->
+            <div class="mt-4">
+                <label for="converted-temperature" class="block text-gray-700">Converted Value:</label>
+                <input type="text" id="converted-temperature" name="converted-temperature"
+                    class="border rounded px-3 py-2 w-full bg-gray-100">
+            </div>
+        </div>
+
+        <!-- JavaScript section for conversion functions and show/hide functionality -->
+        <script>
+            // Function to convert weight
+            const convertWeight = () => {
+                const conversionType = document.getElementById('weight-conversion-type').value;
+                const inputValue = parseFloat(document.getElementById('weight-value').value);
+
+                let convertedValue;
+
+                if (conversionType === 'lb-to-kg') {
+                    convertedValue = inputValue * 0.453592;
+                } else if (conversionType === 'kg-to-lb') {
+                    convertedValue = inputValue / 0.453592;
+                }
+
+                // Displaying converted value
+                document.getElementById('converted-weight').value = convertedValue.toFixed(2);
+            };
+
+            // Function to convert distance
+            const convertDistance = () => {
+                const inputValue = parseFloat(document.getElementById('distance-value').value);
+                const conversionType = document.getElementById('distance-conversion-type').value;
+
+                let convertedValue;
+
+                if (conversionType === 'km-to-miles') {
+                    convertedValue = inputValue / 1.60934;
+                } else if (conversionType === 'miles-to-km') {
+                    convertedValue = inputValue * 1.60934;
+                }
+
+                // Displaying converted value
+                document.getElementById('converted-distance').value = convertedValue.toFixed(2);
+            };
+
+            // Function to convert temperature
+            const convertTemperature = () => {
+                const inputValue = parseFloat(document.getElementById('temperature-value').value);
+                const conversionType = document.getElementById('temperature-conversion-type').value;
+
+                let convertedValue;
+
+                if (conversionType === 'celsius-to-fahrenheit') {
+                    convertedValue = (inputValue * 9 / 5) + 32;
+                } else if (conversionType === 'fahrenheit-to-celsius') {
+                    convertedValue = (inputValue - 32) * 5 / 9;
+                }
+
+                // Displaying converted value
+                document.getElementById('converted-temperature').value = convertedValue.toFixed(2);
+            };
+
+            // Function to show/hide sections based on selected conversion
+            const showSection = (sectionId) => {
+                // Hiding all sections first
+                document.getElementById('weight').classList.add('hidden');
+                document.getElementById('distance').classList.add('hidden');
+                document.getElementById('temperature').classList.add('hidden');
+
+                // Showing the selected section
+                document.getElementById(sectionId).classList.remove('hidden');
+            };
+        </script>
+    </div>
+</body>
+
+</html>
